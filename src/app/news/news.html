@@ -1,0 +1,40 @@
+<section class="min-h-screen bg-slate-950 text-slate-100 py-12 px-4">
+  <div class="mx-auto max-w-6xl">
+    <header class="mb-10">
+      <p class="text-sm uppercase tracking-[0.35em] text-cyan-400">Crypto News</p>
+      <h1 class="mt-3 text-4xl font-semibold sm:text-5xl">Latest news from the crypto world</h1>
+      <p class="mt-4 max-w-2xl text-slate-300">Stay up to date with market changes, launches, and blockchain industry analysis.</p>
+    </header>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      @for (item of news; track item.guid) {
+        <article
+          class="flex h-full flex-col rounded-3xl border border-slate-800 bg-slate-900/80 p-6 shadow-xl shadow-slate-950/30 transition hover:-translate-y-1 hover:border-cyan-400 hover:bg-slate-900"
+          [attr.data-guid]="item.guid"
+        >
+          <div class="flex items-center justify-between text-sm text-slate-400">
+            <span>{{ item.date }}</span>
+            <span>{{ item.author }}</span>
+          </div>
+          <h2 class="mt-5 text-xl font-semibold text-white">{{ item.title }}</h2>
+          <div class="mt-5 flex-1 space-y-4">
+            <img
+              class="h-52 w-full rounded-2xl object-cover"
+              [src]="findImageContent(item) || item.image"
+              [alt]="item.title"
+            />
+            <p class="text-slate-300">{{ item.description || item.content || 'No description available.' }}</p>
+          </div>
+          <a
+            class="mt-6 inline-flex items-center rounded-full bg-cyan-500 px-4 py-2 text-sm font-medium text-slate-950 transition hover:bg-cyan-400 self-start"
+            [href]="item.link"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Leer más
+          </a>
+        </article>
+      }
+    </div>
+  </div>
+</section>
