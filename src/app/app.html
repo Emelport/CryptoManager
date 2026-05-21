@@ -1,25 +1,45 @@
-<div class="min-h-screen bg-slate-950 text-slate-100 antialiased grid grid-cols-[260px_1fr]">
-  <aside class="border-r border-slate-800/70 bg-slate-950/95 px-6 py-8">
-    <div class="text-sm uppercase text-emerald-400 font-semibold mb-8">
-      Crypto Manager
+<mat-sidenav-container autosize class="app-shell min-h-screen">
+  <mat-sidenav
+    mode="side"
+    opened
+    [style.width.px]="collapsed() ? 80 : 260"
+    class="app-sidenav"
+  >
+    <div class="flex items-center justify-between gap-2 px-3 mb-8">
+      <div class="flex items-center gap-2">
+        <mat-icon class="text-cyan-400">currency_bitcoin</mat-icon>
+        <span *ngIf="!collapsed()" class="text-sm uppercase text-emerald-400 font-semibold">Crypto Manager</span>
+      </div>
+      <button
+        mat-icon-button
+        class="text-slate-300 hover:text-white"
+        type="button"
+        (click)="toggleSidenav()"
+        aria-label="Toggle sidenav"
+      >
+        <mat-icon>{{ collapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+      </button>
     </div>
 
-    <nav class="space-y-2">
+    <nav class="p-2">
       @for (item of menuItems; track item.label) {
         <a
           [routerLink]="item.path"
           [routerLinkActive]="['bg-slate-800','text-white']"
-          class="block rounded-2xl px-4 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white uppercase"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class=" mb-2 flex items-center gap-3 rounded-2xl px-3 py-3 text-sm font-medium text-slate-300 transition hover:bg-slate-800 hover:text-white"
+          [class.justify-center]="collapsed()"
         >
-          {{ item.label }}
+          <mat-icon class="text-cyan-400">{{ item.icon }}</mat-icon>
+          <span *ngIf="!collapsed()">{{ item.label }}</span>
         </a>
       }
     </nav>
-  </aside>
+  </mat-sidenav>
 
-  <main class="p-1">
+  <mat-sidenav-content class="app-sidenav-content p-1">
     <section class="min-h-[calc(100vh-.5rem)] rounded-[5px] border border-slate-800/70 bg-slate-950/90 shadow-[0_25px_80px_-40px_rgba(15,23,42,0.85)]">
       <router-outlet></router-outlet>
     </section>
-  </main>
-</div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { catchError, Observable } from 'rxjs';
+import { of } from 'rxjs';
 
 export interface NewsItem {
   title: string;
@@ -17,10 +19,11 @@ export interface NewsItem {
   providedIn: 'root',
 })
 export class NewsService {
+  private readonly http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
-
-  getNews() {
-    return this.http.get<NewsItem[]>('/api/news');
+  getNews(): Observable<NewsItem[]> {
+    return this.http.get<NewsItem[]>('/api/news').pipe(
+      catchError(() => of([])),
+    );
   }
 }

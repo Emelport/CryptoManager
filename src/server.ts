@@ -38,6 +38,71 @@ app.get('/api/news', async (req, res) => {
   }
 });
 
+app.get('/api/actual-price', async (req, res) => {
+  try {
+    const ids = (req.query['ids'] as string) || 'bitcoin,ethereum';
+    const vs = (req.query['vs'] as string) || 'usd,eur,mxn';
+
+    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${ids}&vs_currencies=${vs}`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      error: 'Failed to fetch CoinGecko price',
+    });
+  }
+});
+
+app.get('/api/coins', async (req, res) => {
+  try {
+    const currency = (req.query['currency'] as string) || 'usd';
+    const page = (req.query['page'] as string) || '1';
+    const perPage = (req.query['perPage'] as string) || '50';
+
+    const url =
+      `https://api.coingecko.com/api/v3/coins/markets` +
+      `?vs_currency=${currency}` +
+      `&order=market_cap_desc` +
+      `&per_page=${perPage}` +
+      `&page=${page}` +
+      `&sparkline=false`;
+
+    const response = await fetch(url);
+
+    const data = await response.json();
+
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      error: 'Failed to fetch coins',
+    });
+  }
+});
+
+app.get('/api/coins-list', async (req, res) => {
+  try {
+    const response = await fetch(
+      'https://api.coingecko.com/api/v3/coins/list'
+    );
+
+    const data = await response.json();
+
+    res.json(data);
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).json({
+      error: 'Failed to fetch coins list',
+    });
+  }
+});
 
 app.use(
   express.static(browserDistFolder, {

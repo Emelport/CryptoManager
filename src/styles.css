@@ -45,3 +45,34 @@
     border-color: var(--panel-border);
   }
 }
+
+.app-shell,
+.app-sidenav-content,
+.mat-sidenav-container,
+.mat-drawer-inner-container,
+.mat-sidenav-content,
+.mat-drawer-content,
+.mat-sidenav,
+.mat-drawer {
+  background-color: var(--bg) !important;
+  color: inherit !important;
+}
+
+.app-sidenav {
+  border-right: 1px solid rgba(148,163,184,0.12);
+  background-color: rgba(15,23,42,0.95) !important;
+}
+
+.app-sidenav .mat-drawer-inner-container,
+.app-sidenav .mat-drawer-content,
+.app-sidenav .mat-drawer-inner-container::before {
+  background-color: rgba(15,23,42,0.95) !important;
+}
+
+.app-sidenav-content {
+  background-color: transparent !important;
+}
+
+.mat-sidenav:not(.mat-drawer-opened) {
+  min-width: 80px !important;
+}

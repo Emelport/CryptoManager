@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -8,19 +8,26 @@ import { Observable } from 'rxjs';
 export class CoingeckoService {
   private http = inject(HttpClient);
 
-  private baseUrl = '/api/coingecko';
+  getPrice(vs: string, ids: string): Observable<any> {
+    return this.http.get('/api/actual-price', {
+      params: {
+        ids,
+        vs
+      }
+    });
+  }
 
-  getPrice(
-    ids: string[],
-    currencies: string[] = ['usd', 'eur', 'mxn']
-  ): Observable<any> {
-    const params = new HttpParams()
-      .set('ids', ids.join(','))
-      .set('vs_currencies', currencies.join(','));
+  getCoins(currency: string, page: string, perPage: string): Observable<any> {
+    return this.http.get('/api/coins', {
+      params: {
+        currency,
+        page,
+        perPage
+      }
+    });
+  }
 
-    return this.http.get(
-      `${this.baseUrl}/simple/price`,
-      { params }
-    );
+  getCoinsList() {
+    return this.http.get('/api/coins-list');
   }
 }
